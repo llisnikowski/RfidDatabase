@@ -1,4 +1,4 @@
-#include "rfidUid.h"
+#include "rfidUid.hpp"
 
 RfidUid::RfidUid(uint8_t n1, uint8_t n2, uint8_t n3, uint8_t n4)
     :uid{n1,n2,n3,n4}

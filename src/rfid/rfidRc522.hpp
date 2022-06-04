@@ -1,13 +1,13 @@
 #pragma once
 #include <MFRC522.h>
-#include "rfidUid.h"
+#include "rfidUid.hpp"
 
 class RfidRc522 :public MFRC522
 {
 public:
     RfidRc522(uint8_t ss, uint8_t reset);
 
-    void init(){ MFRC522::PCD_Init();}
+    void begin(){ MFRC522::PCD_Init();}
 
     bool detectCard();
     bool cardIsNew(){return isNew;}

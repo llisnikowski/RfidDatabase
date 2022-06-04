@@ -1,0 +1,52 @@
+udo apt install apache2-bin //chyba niepotrzebne
+udo apt install apache
+which apache2
+sudo service apache2 status
+sudo service apache2 start
+sudo gedit /etc/hosts
+ip -4 a
+sudo mkdir -p /var/www/test
+sudo chown -R $USER:$USER /var/www/test
+sudo chmod -R 755 /var/www
+touch /var/www/test/index.php
+gedit /var/www/test/index.php
+sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/test.dev.conf
+sudo gedit /etc/apache2/sites-available/test.dev.conf 
+sudo a2ensite test.dev.conf
+systemctl reload apache2
+sudo apt-get install mysql-server
+systemctl status mysql.service
+service mysql start
+
+_download dbeaver
+sudo dpkg -i dbeaver-ce_22.0.5_amd64.deb 
+
+sudo apt-get install phpmyadmin
+_add in file(/etc/apache2/apache2.conf.):
+    Include /etc/phpmyadmin/apache.conf
+sudo dpkg-reconfigure -plow phpmyadmin
+sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf.d/phpmyadmin.conf
+sudo /etc/init.d/apache2 reload
+sudo ln -s /etc/phpmyadmin/apache.conf /etc/apache2/conf-available/phpmyadmin.conf
+sudo a2enconf phpmyadmin
+sudo /etc/init.d/apache2 reload
+
+mysql -u root -p
+CREATE DATABASE db_esp32 CHARACTER SET = 'utf8' COLLATE = 'utf8_general_ci';
+USE db_esp32;
+CREATE TABLE tbl_temp (
+	temp_id    INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	temp_value FLOAT DEFAULT 0.00,
+	PRIMARY KEY (temp_id)
+);
+
+CREATE TABLE rfidUsers (
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    rfidUid INT UNSIGNED,
+    firstName varchar(32),
+    lastName varchar(32),
+    status ENUM('unknown', 'no access', 'access') DEFAULT 'unknown',
+    PRIMARY KEY (id)
+);
+
+INSERT INTO `rfidUsers`(`rfidUid`) VALUES ('4294967295');
