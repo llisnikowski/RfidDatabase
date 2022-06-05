@@ -6,10 +6,12 @@
 #include "wifi/wifiCommunication.hpp"
 #include "configWifi.hpp"
 #include "database/database.hpp"
+#include "buzzer/buzzer.hpp"
 
 RfidRc522 rfid(rfidSS, rfidReset);
 WifiCommunication wifi;
 Database database;
+Buzzer buzzer(buzzerPin);
 
 void setup() 
 {
@@ -21,6 +23,7 @@ void setup()
   rfid.begin();
   wifi.begin(WIFI_SSID, WIFI_PASSWORD);
   wifi.setHostName(HOST_NAME);
+  buzzer.begin();
 
   while(wifi.status() != WL_CONNECTED) {  //łączenie z wifi
     delay(500);
@@ -33,7 +36,7 @@ void setup()
   else{
     Serial.println("--noping--");
   }
-
+  buzzer.impuls(1000,1000);
 }
 
 void loop() 
@@ -56,6 +59,7 @@ void loop()
   }
   
   rfid.stop();
+  buzzer.update();
   delay(10);
 }
 
