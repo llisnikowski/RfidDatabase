@@ -36,3 +36,8 @@ uint32_t RfidUid::getFullUid()
 {
     return (uint32_t)uid[0]<<24 | (uint32_t)uid[1]<<16 | (uint32_t)uid[2]<<8 | (uint32_t)uid[3];
 }
+
+String RfidUid::getUidText()
+{
+    return String(uid[0],HEX)+String(uid[1],HEX)+String(uid[2],HEX)+String(uid[3],HEX);
+}

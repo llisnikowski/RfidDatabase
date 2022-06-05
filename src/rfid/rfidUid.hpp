@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <initializer_list>
+#include <Arduino.h>
 
 class RfidUid
 {
@@ -15,6 +16,7 @@ public:
     bool operator!=(RfidUid uid2);
 
     uint32_t getFullUid();
+    String getUidText();
 
 private:
     uint8_t uid[4];

@@ -45,7 +45,7 @@ CREATE TABLE rfidUsers (
     rfidUid INT UNSIGNED,
     firstName varchar(32),
     lastName varchar(32),
-    status ENUM('unknown', 'no access', 'access') DEFAULT 'unknown',
+    status ENUM('unknown', 'no access', 'fullaccess') DEFAULT 'unknown',
     PRIMARY KEY (id)
 );
 

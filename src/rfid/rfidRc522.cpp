@@ -1,7 +1,7 @@
 #include "rfidRc522.hpp"
 
 RfidRc522::RfidRc522(uint8_t ss, uint8_t reset)
-    :MFRC522(ss, reset)
+    :MFRC522(ss, reset), isNew()
 {
 }
 
