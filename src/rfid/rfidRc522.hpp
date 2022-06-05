@@ -2,7 +2,7 @@
 #include <MFRC522.h>
 #include "rfidUid.hpp"
 
-class RfidRc522 :public MFRC522
+class RfidRc522 :private MFRC522
 {
 public:
     RfidRc522(uint8_t ss, uint8_t reset);

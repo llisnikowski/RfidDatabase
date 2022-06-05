@@ -23,9 +23,9 @@ bool Database::findUid(RfidUid uid)
 
     person = Person(uid);
     String resoult;
-    wifi->query("isUid.php?uid="+uid.getUidText(),resoult);
+    wifi->query("isUid.php?uid="+uid.getUidTextDec(),resoult);
     if(resoult == "true"){
-        wifi->query("getPerson.php?uid="+uid.getUidText(),resoult);
+        wifi->query("getPerson.php?uid="+uid.getUidTextDec(),resoult);
 
         int splitFrom = 0;
         int splitTo = resoult.indexOf(";");
@@ -39,7 +39,7 @@ bool Database::findUid(RfidUid uid)
         splitTo = resoult.indexOf(";", splitFrom);
         person.status = static_cast<PersonStatus>
                     (resoult.substring(splitFrom, splitTo).toInt());
-        
+        return true;
     }
     
     return false;
