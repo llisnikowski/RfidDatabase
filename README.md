@@ -1,5 +1,5 @@
 # RfidDatabase
-
+Design of rfid reader that allows you to control access from the database.
 
 ## Table of Contents
 * [Technologies And Devices Used](#technologies-and-devices-used)
@@ -11,7 +11,6 @@
 [Presentation](#presentation)
 [Acknowledgements](#acknowledgements)
 [Usage](#usage) 
-
 -->
 
 <!--
