@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+//constexpr char WIFI_SSID[] = "wifi name";
+//constexpr char WIFI_PASSWORD[] = "*****";
+//const String HOST_NAME = "http://192.168.**.***/";
 
 #ifdef BOARD_DEVKIT
 constexpr uint8_t rfidSS = 5;

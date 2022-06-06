@@ -6,61 +6,33 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#include "config.hpp"
-#include "rfid/rfidRc522.hpp"
-#include "wifi/wifiCommunication.hpp"
-#include "configWifi.hpp"
-#include "database/database.hpp"
-#include "buzzer/buzzer.hpp"
-#include "led/led.hpp"
+#include "objects.hpp"
+#include "basicFunctions.hpp"
+#include "displayFunctions.hpp"
 
-RfidRc522 rfid(rfidSS, rfidReset);
-WifiCommunication wifi;
-Database database;
-Buzzer buzzer(buzzerPin);
-Led ledGreen(ledGreenPin);
-Led ledRed(ledRedPin);
-Adafruit_SSD1306 display(screenWidth, screenHeight, &Wire);
 
 void setup() 
 {
-  Serial.begin(115200);
-  ledGreen.begin();
-  ledRed.begin();
-  SPI.begin();
-  rfid.begin();
-  wifi.begin(WIFI_SSID, WIFI_PASSWORD);
-  wifi.setHostName(HOST_NAME);
-  buzzer.begin();
-
-  if(!display.begin(SSD1306_SWITCHCAPVCC, screenAddress)) {
-    Serial.println(F("SSD1306 allocation failed"));
+  initAll();
+  ledRed.blink(500);
+  if(wifiConnect()){
+    displayMessage("Udane polaczenie z serwerem");
+    ledRed.turnOn();
+    buzzer.impuls(200,1000);
+  }
+  else{
+    displayMessage("Brak polaczenia z serwerem");
+    for(int i=0; i<3;i++){
+      buzzer.turnOn(2000);
+      delayUpdate(200);
+      buzzer.turnOff();
+      delayUpdate(200);
+    }
     for(;;);
   }
 
-  while(wifi.status() != WL_CONNECTED) {  //łączenie z wifi
-    delay(500);
-  }
-  database.setWifiCommunication(&wifi);
-  Serial.println("Hello");
-  if(database.ping()){
-    Serial.println("--ping--");
-  }
-  else{
-    Serial.println("--noping--");
-  }
-  buzzer.impuls(100,1000);
-  
-  ledRed.blink(500);
-  ledGreen.blink(50,50);
-  display.clearDisplay();
-  display.display();
-  display.setTextSize(2);
-  display.setTextColor(SSD1306_WHITE);
-  display.drawPixel(10, 10, SSD1306_WHITE);
-  display.setCursor(0,20);
-  display.print(F("HelloWorld"));
-  display.display();
+  displayCenterText(32, 20, "Witam");
+
 }
 
 void loop() 
@@ -71,22 +43,45 @@ void loop()
     Serial.println(uid.getFullUid());
     if(database.findUid(uid)){
       Person person = database.getPerson();
-      Serial.print(person.name);
-      Serial.print("  ");
-      Serial.print(person.lastName);
-      Serial.print("  ");
-      Serial.println(static_cast<int>(person.status));
+      displayName(person);
+      switch (person.status)
+      {
+      case PersonStatus::noaccess:
+        buzzer.impuls(200,2000);
+        ledRed.blink(50,20);
+        ledGreen.turnOff();
+        break;
+      case PersonStatus::fullaccess:
+        buzzer.impuls(200,1000);
+        ledRed.turnOn();
+        ledGreen.blink(50,60);
+        break;
+      default:
+        displayMessage("Brak osoby","w bazie danych");
+        buzzer.impuls(100,1500);
+        ledRed.blink(100,6);
+        ledGreen.turnOff();
+        break;
+      }
     }
     else{
-      Serial.println("Brak osoby");
+      displayMessage("Brak osoby","w bazie danych");
+      buzzer.impuls(100,1500);
+      ledRed.blink(100,6);
+      ledGreen.turnOff();
     }
+    rfid.stop();
+    Serial.print(".");
+    delayUpdate(500);
   }
   
   rfid.stop();
-  buzzer.update();
-  ledGreen.update();
-  ledRed.update();
+  updateAll();
   delay(10);
 }
-
 #endif
+
+
+
+
+

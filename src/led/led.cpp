@@ -49,6 +49,7 @@ void Led::impuls(int time)
 
 void Led::blink(int delay, int count)
 {
+    if(mode != LedMode::Off && mode != LedMode::On) turnOff();
     if(count == 0){
         mode = LedMode::BlinkInfinity;
     }
