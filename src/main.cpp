@@ -1,6 +1,11 @@
 #if defined(arduino_main)
 #include <Arduino.h>
+#include <Wire.h>
 #include <SPI.h>
+#include <Adafruit_I2CDevice.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
 #include "config.hpp"
 #include "rfid/rfidRc522.hpp"
 #include "wifi/wifiCommunication.hpp"
@@ -15,6 +20,7 @@ Database database;
 Buzzer buzzer(buzzerPin);
 Led ledGreen(ledGreenPin);
 Led ledRed(ledRedPin);
+Adafruit_SSD1306 display(screenWidth, screenHeight, &Wire);
 
 void setup() 
 {
@@ -26,6 +32,11 @@ void setup()
   wifi.begin(WIFI_SSID, WIFI_PASSWORD);
   wifi.setHostName(HOST_NAME);
   buzzer.begin();
+
+  if(!display.begin(SSD1306_SWITCHCAPVCC, screenAddress)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;);
+  }
 
   while(wifi.status() != WL_CONNECTED) {  //łączenie z wifi
     delay(500);
@@ -42,6 +53,14 @@ void setup()
   
   ledRed.blink(500);
   ledGreen.blink(50,50);
+  display.clearDisplay();
+  display.display();
+  display.setTextSize(2);
+  display.setTextColor(SSD1306_WHITE);
+  display.drawPixel(10, 10, SSD1306_WHITE);
+  display.setCursor(0,20);
+  display.print(F("HelloWorld"));
+  display.display();
 }
 
 void loop() 
