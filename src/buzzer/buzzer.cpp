@@ -11,6 +11,7 @@ Buzzer::~Buzzer()
 
 void Buzzer::begin()
 {
+    pinMode(pin, OUTPUT);
     ledcAttachPin(pin, channel);
 }
 
@@ -26,6 +27,7 @@ void Buzzer::turnOff()
     ledcWriteTone(channel, 0);
 }
 
+
 void Buzzer::impuls(int time, int tone)
 {
     mode = BuzzerMode::Impuls;
@@ -35,7 +37,7 @@ void Buzzer::impuls(int time, int tone)
 
 void Buzzer::update()
 {
-    if(millis() > timer){
+    if(millis() >= timer){
         if(mode == BuzzerMode::Impuls){
             turnOff();
         }

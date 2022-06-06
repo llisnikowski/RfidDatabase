@@ -7,18 +7,20 @@
 #include "configWifi.hpp"
 #include "database/database.hpp"
 #include "buzzer/buzzer.hpp"
+#include "led/led.hpp"
 
 RfidRc522 rfid(rfidSS, rfidReset);
 WifiCommunication wifi;
 Database database;
 Buzzer buzzer(buzzerPin);
+Led ledGreen(ledGreenPin);
+Led ledRed(ledRedPin);
 
 void setup() 
 {
   Serial.begin(115200);
-  pinMode(ledGreen, OUTPUT);
-  pinMode(ledRed, OUTPUT);
-  pinMode(buzzerPin, OUTPUT);
+  ledGreen.begin();
+  ledRed.begin();
   SPI.begin();
   rfid.begin();
   wifi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -36,7 +38,10 @@ void setup()
   else{
     Serial.println("--noping--");
   }
-  buzzer.impuls(1000,1000);
+  buzzer.impuls(100,1000);
+  
+  ledRed.blink(500);
+  ledGreen.blink(50,50);
 }
 
 void loop() 
@@ -60,6 +65,8 @@ void loop()
   
   rfid.stop();
   buzzer.update();
+  ledGreen.update();
+  ledRed.update();
   delay(10);
 }
 
