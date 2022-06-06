@@ -8,3 +8,4 @@ Buzzer buzzer(buzzerPin);
 Led ledGreen(ledGreenPin);
 Led ledRed(ledRedPin);
 Adafruit_SSD1306 display(screenWidth, screenHeight, &Wire);
+Timer timer5s(5000);

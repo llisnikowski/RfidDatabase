@@ -7,6 +7,7 @@
 #include "buzzer/buzzer.hpp"
 #include "led/led.hpp"
 #include <Adafruit_SSD1306.h>
+#include "timer/timer.hpp"
 
 extern RfidRc522 rfid;
 extern WifiCommunication wifi;
@@ -15,3 +16,4 @@ extern Buzzer buzzer;
 extern Led ledGreen;
 extern Led ledRed;
 extern Adafruit_SSD1306 display;
+extern Timer timer5s;

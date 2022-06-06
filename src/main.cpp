@@ -9,7 +9,7 @@
 #include "objects.hpp"
 #include "basicFunctions.hpp"
 #include "displayFunctions.hpp"
-
+#include "timer/timer.hpp"
 
 void setup() 
 {
@@ -31,7 +31,7 @@ void setup()
     for(;;);
   }
 
-  displayCenterText(32, 20, "Witam");
+  displayMessage("Zbliz karte");
 
 }
 
@@ -39,6 +39,7 @@ void loop()
 {
 
   if(rfid.detectCard()){
+    timer5s.resetTime();
     RfidUid uid = rfid.getUid();
     Serial.println(uid.getFullUid());
     if(database.findUid(uid)){
@@ -75,6 +76,10 @@ void loop()
     delayUpdate(500);
   }
   
+  if(timer5s.timeIsUp()){
+    displayMessage("Zbliz karte");
+  }
+
   rfid.stop();
   updateAll();
   delay(10);
