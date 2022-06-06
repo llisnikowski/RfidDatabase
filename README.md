@@ -2,22 +2,24 @@
 Design of rfid reader that allows you to control access from the database.
 
 ## Table of Contents
+* [Images](#images)
 * [Technologies And Devices Used](#technologies-and-devices-used)
 * [Diagram](#diagram)
+* [Uml Graph](#uml-graph)
 * [Setup](#setup)
 * [Project Status](#project-status)
 <!--
-[Images](#images)
+
 [Presentation](#presentation)
 [Acknowledgements](#acknowledgements)
 [Usage](#usage) 
 -->
 
-<!--
+
 ## Images
 ![Main View](./img/mainView.jpg)
 ![Main View 2](./img/mainView2.jpg)
--->
+
 
 ## Technologies And Devices Used
 - C++
@@ -31,6 +33,9 @@ Design of rfid reader that allows you to control access from the database.
 
 ## Diagram
 ![Diagram](./diagram/diagram.png)
+
+## Uml Graph
+![Main View 2](./uml/uml.png)
 
 ## Setup
 To start the application you need to have installed a Visual Studio Code and PlatformIO IDE extension.
